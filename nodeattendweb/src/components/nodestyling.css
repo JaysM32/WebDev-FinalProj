@@ -1,0 +1,16 @@
+.card {
+    margin-top: 5%;
+    margin-bottom: auto;
+}
+.card-img-top {
+    width: 100%;
+    object-fit: cover;
+}
+.offscreen {
+    position: absolute;
+    left: -9999px;
+}
+
+.hide {
+    display: none;
+}

@@ -1,0 +1,102 @@
+import React, { useState } from "react";
+import axios from "axios";
+import { Card, Button, Alert, Navbar, Form } from "react-bootstrap";
+import { useAuth } from "../backends/AuthCont";
+import { Link, useHistory } from "react-router-dom";
+import './styling.css';
+import { Nav } from "react-bootstrap";
+import { Container } from "react-bootstrap";
+
+export default function Dashboard() {
+
+  // Logout functions
+  const [error, setError] = useState("");
+  const { currentUser, logout } = useAuth();
+  const history = useHistory();
+
+  async function handleLogout() {
+    setError("")
+
+    try {
+      await logout();
+      history.push("/login");
+    } catch {
+      setError("Failed to log out");
+    }
+  }
+
+  // PHP Input handling
+  const [error2, setError2] = useState("")
+
+  const [name, setName] = useState('');
+  const [classid, setClassID] = useState('');
+  const [dob, setDOB] = useState('');
+  const [notes, setNotes] = useState('');
+
+  const addStudent = () => {
+    axios.post("https://webdev-deployed-updated.herokuapp.com/create", {
+      name: name,
+      classid: classid,
+      dob: dob,
+      notes: notes,
+    }).then((res) => {
+      console.log(res.data)
+      alert("Student registered")
+    }).catch((err) => {
+      console.log(err.response.data)
+      setError2(err.response.data)
+    });
+    };
+  
+  return (
+
+    <div className="page">
+      <Navbar bg='basecolor' variant="dark" sticky='top' expand='sm' collapseOnSelect >
+        <Navbar.Brand>
+        <img src={require('../images/3msFaceRecog.png')} alt="logo"/>
+          3msStudentReg
+        </Navbar.Brand>
+
+        <Navbar.Toggle />
+        <Navbar.Collapse className="right-align">
+        <Nav>
+          <Nav.Link href="/">Registry</Nav.Link>
+          <Nav.Link href="/StudClass">Database</Nav.Link>
+          <Nav.Link href="/Account">Account</Nav.Link>
+          <Button variant="link" onClick={handleLogout}>
+          Log Out
+        </Button>
+        </Nav>
+        </Navbar.Collapse>
+      </Navbar>
+
+
+      <div className="content">
+      {error && <Alert variant="danger">{error}</Alert>}
+      <Container className="insertregistry">
+        <Card className="registrybody">
+          <Card.Body>
+          <h1 className="registrytitle">Welcome to <br/>
+           3MS Student Registry</h1><br/>
+          {error2 && <h3>{error2}</h3>}
+          <div className="studentregistry">
+            <h2>Student Registry</h2>
+            <Form onSubmit={addStudent}>
+              <Form.Label for='studentName'>Write Student Name</Form.Label><br/>
+              <input type="text" id="studentName" name="studentName" onChange={(event)=>{setName(event.target.value)}}></input><br/><br/>
+              <Form.Label for='studentclass'>Write Student Class ID</Form.Label><br/>
+              <input type="text" id="studentClass" name="studentClass" onChange={(event)=>{setClassID(event.target.value)}}></input><br/><br/>
+              <Form.Label for='studentDOB'>Write Student Date of Birth</Form.Label><br/>
+              <input type="text" id="studentName" name="studentDOB" onChange={(event)=>{setDOB(event.target.value)}}></input><br/><br/>
+              <Form.Label for='studentNotes'>Write any notes Regarding the student</Form.Label><br/>
+              <input type="text" id="studentClass" name="studentClass" onChange={(event)=>{setNotes(event.target.value)}}></input><br/><br/>
+              <Button className="w-100" type="submit"> Submit </Button>
+            </Form>
+          </div>
+          </Card.Body>
+        </Card>
+      </Container>
+      </div>
+   </div>
+  )
+}
