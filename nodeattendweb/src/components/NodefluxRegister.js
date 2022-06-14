@@ -384,8 +384,8 @@ const NodefluxRegister = () => {
                     <div class={`${error ? "": "hide"}`}>
                         <button class='btn btn-warning' style={{width:'83%'}}>{error}</button>
                     </div><br/>
-                    <button type='button' class="btn btn-primary" style={{height: '50px', marginLeft:'50px', marginRight:'50px'}} onClick={handleNodefluxEnroll}> Upload Image </button><br/>
-                    <button type='button' class={`btn btn-primary ${loading ? "hide" : ""} ${pageJobDone.page_1 ? "hide" : ""}`} style={{height: '50px', marginLeft:'50px', marginRight:'50px'}} onClick={uploadIMG}> Select Image </button><br/>
+                    <button type='button' class="btn btn-primary" style={{height: '50px', marginLeft:'50px', marginRight:'50px'}} onClick={handleNodefluxEnroll}> {`${loading ? "Loading" : "Upload Image"}`} </button><br/>
+                    <button type='button' class={`btn btn-primary ${pageJobDone.page_1 ? "hide" : ""}`} style={{height: '50px', marginLeft:'50px', marginRight:'50px'}} onClick={uploadIMG}> Select Image </button><br/>
                     <button type='button' class='btn btn-link' onClick={abortAll} style={{marginLeft:'50px', marginRight:'50px'}}>Cancel</button><br/>
                     <div class='card-footer'>
                         <nav aria-label="Page navigation example">

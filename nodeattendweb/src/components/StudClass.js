@@ -35,6 +35,7 @@ export default function Dashboard() {
 
   const getStudents = () => {
     axios.get('https://webdev-deployed-updated.herokuapp.com/class').then((response) => {
+      console.log('wadsadwasd')
       setStudents(response.data);
     });
   };
